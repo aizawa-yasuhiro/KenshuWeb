@@ -1,7 +1,6 @@
 package sample22;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,20 +31,28 @@ public class Sample22_IOServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
+//		String param = request.getParameter("param");		// 入力値取得
+//
+//		// 画面表示
+//		PrintWriter out = response.getWriter();
+//		out.println("<html><head><title>サンプル２２</title></head>");
+//		out.println("<body>");
+//		if (param.isEmpty()) {
+//			out.println("未入力です");
+//		} else {
+//			out.println("<h1>" + param + "</h1> と入力しました。");
+//		}
+//		out.println("</body></html>");
+//		out.close();
+
+		response.getWriter().append("<html><head><title>サンプル２２</title></head><body>\n");
 		String param = request.getParameter("param");		// 入力値取得
-
-		// 画面表示
-		PrintWriter out = response.getWriter();
-		out.println("<html><head><title>サンプル２２</title></head>");
-		out.println("<body>");
 		if (param.isEmpty()) {
-			out.println("未入力です");
+			response.getWriter().append("未入力です");
 		} else {
-			out.println("<h1>" + param + "</h1> と入力しました。");
+			response.getWriter().append("<h1>" + param + "</h1> と入力しました。");
 		}
-		out.println("</body></html>");
-		out.close();
-
+		response.getWriter().append("</body></html>");
 	}
 
 	/**

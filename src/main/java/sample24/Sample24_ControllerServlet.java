@@ -21,15 +21,18 @@ public class Sample24_ControllerServlet extends HttpServlet implements Servlet {
 
         // 値をモデルクラスに設定
         Sample24_ModelBean objModelBean = new Sample24_ModelBean();
-        String param = request.getParameter("param");
-        objModelBean.setParam(param);
-
-        // リクエストにモデルクラスを設定
+//        String param = request.getParameter("param");
+//        objModelBean.setParam(param);
+//
+//        // リクエストにモデルクラスを設定
+//        request.setAttribute("modelBean", objModelBean);
+        objModelBean.setParam(request.getParameter("param"));
         request.setAttribute("modelBean", objModelBean);
 
         // 次画面に遷移
-        String nextPage = "/jsp/Sample24_ViewJSP.jsp";
-        getServletContext().getRequestDispatcher(nextPage).forward(request, response);
+//        String nextPage = "/jsp/Sample24_ViewJSP.jsp";
+//        getServletContext().getRequestDispatcher(nextPage).forward(request, response);
+        request.getRequestDispatcher("/jsp/Sample24_ViewJSP.jsp").forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
