@@ -2,7 +2,6 @@ package kadai03;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +12,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+
+import util.DBUtil;
 
 /**
  * Servlet implementation class SearchEmpCtrlServ
@@ -50,9 +50,9 @@ public class SearchEmpCtrlServ extends HttpServlet {
 		ResultSet rst  = null;				// レコード
 
 		// DB接続情報定義
-		String url = "jdbc:mariadb://localhost/kenshudb";	//接続パス
-		String id  = "root";	  //ログインID（SQL研修で使用したユーザ）
-		String pw  = "aizawa";	//パスワード（SQL研修で使用したパスワード）
+//		String url = "jdbc:mariadb://localhost/kenshudb";	//接続パス
+//		String id  = "root";	  //ログインID（SQL研修で使用したユーザ）
+//		String pw  = "aizawa";	//パスワード（SQL研修で使用したパスワード）
 
 		// 検索内容
 		String sql = "SELECT EMPNO,ENAME FROM EMP WHERE ENAME LIKE ? ORDER BY EMPNO";		// 使用SQL
@@ -76,9 +76,9 @@ public class SearchEmpCtrlServ extends HttpServlet {
 		// ■DBを検索する
 		try{
 			// JDBCドライバをロードし、コネクションを作成する
-			Class.forName("org.mariadb.jdbc.Driver");	// DBごとの決まり文句
-			con = DriverManager.getConnection(url, id, pw);
-
+//			Class.forName("org.mariadb.jdbc.Driver");	// DBごとの決まり文句
+//			con = DriverManager.getConnection(url, id, pw);
+			con = DBUtil.getConnection();
 
 			// EMP表を検索する
 			pstmt = con.prepareStatement(sql);
@@ -100,24 +100,24 @@ public class SearchEmpCtrlServ extends HttpServlet {
 			System.out.println("SQLException:" + ex);
 			return;
 
-		} catch(ClassNotFoundException ex) {
-
-    		// ★実際にはコンソールにエラー出力ではなく、エラー画面への遷移
-			System.out.println("ClassNotFoundException:" + ex);
-			return;
-
+//		} catch(ClassNotFoundException ex) {
+//
+//    		// ★実際にはコンソールにエラー出力ではなく、エラー画面への遷移
+//			System.out.println("ClassNotFoundException:" + ex);
+//			return;
+//
 		} finally {
 
-    		try {
-				// DB接続を閉じる
-				if(rst != null) rst.close();
-				if(pstmt != null) pstmt.close();
-				if(con != null) con.close();
-
-    		} catch(SQLException ex) {
-				return;
-			}
-
+//    		try {
+//				// DB接続を閉じる
+//				if(rst != null) rst.close();
+//				if(pstmt != null) pstmt.close();
+//				if(con != null) con.close();
+//
+//    		} catch(SQLException ex) {
+//				return;
+//			}
+			DBUtil.close(con, pstmt, rst);
 		}
 
 
@@ -126,15 +126,17 @@ public class SearchEmpCtrlServ extends HttpServlet {
 		objSearchEmpBean.setLstEmp(lstEmp);
 
 		// ■検索条件をセッションに保存する
-		HttpSession sess = request.getSession(true);
-		sess.setAttribute("COND_NM", condNm);
+//		HttpSession sess = request.getSession(true);
+//		sess.setAttribute("COND_NM", condNm);
+		request.getSession().setAttribute("COND_NM", condNm);
 
 		// ■リクエストにモデルクラスを設定
 		request.setAttribute("searchBean", objSearchEmpBean);
 
 		// ■次画面に遷移
 		String nextPage = "/jsp/kadai03/EmpList.jsp";
-		getServletContext().getRequestDispatcher(nextPage).forward(request, response);
+//		getServletContext().getRequestDispatcher(nextPage).forward(request, response);
+		request.getRequestDispatcher(nextPage).forward(request, response);
 	}
 
 }
