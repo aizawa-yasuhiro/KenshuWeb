@@ -3,28 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>課題１－２</title>
-<script type="text/javascript"><!--
-
-function moveServ(){
-	var val = frm1.param.value;
-	location.href = "/KenshuWeb/kadai01?param=" + val;
-	return false;
-}
-
-function moveJsp(){
-	var val = frm1.param.value;
-	location.href = "/KenshuWeb/jsp/kadai01/RepeatData.jsp?param=" + val;
-	return false;
-}
-
-//--></script>
 
 </head>
 <body>
-	<form name="frm1" method="get">
-		<input type="text" name="param"/>
-		<input type="button" value="Servlet" onclick="moveServ();"/>
-		<input type="button" value="JSP" onclick="moveJsp();"/>
+	<form method="get">
+	    <input type="text" id="param" name="param">
+	    <input type="button" value="Servlet" onclick="this.form.action='/KenshuWeb/kadai01'; this.form.submit();">
+	    <input type="button" value="JSP" onclick="this.form.action='/KenshuWeb/jsp/kadai01/RepeatData.jsp'; this.form.submit();">
 	</form>
 </body>
 </html>
